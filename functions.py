@@ -1,3 +1,7 @@
+"""Helper functions to generate data, models, train models and plot data"""
+
+import os
+
 import matplotlib.pyplot as plt
 import plotly
 import plotly.graph_objs as go
@@ -5,12 +9,17 @@ from sklearn import metrics
 from sklearn.cluster import KMeans
 from sklearn.datasets import make_blobs
 from sklearn.decomposition import PCA
-import os
 
 
 # create dataset
 def create_dataset(number_features):
-    X, y = make_blobs(
+    """
+    creates a dataset based on features qty
+    :param number_features:
+    :return: tuple (x, y) -> (features, cluster assignments)
+    """
+    # pylint: disable=unbalanced-tuple-unpacking
+    x, y = make_blobs(
         n_samples=250,
         n_features=number_features,
         centers=3,
@@ -18,13 +27,20 @@ def create_dataset(number_features):
         shuffle=True,
         random_state=100,
     )
-    return X, y
+    return x, y
 
 
 # =========================================================
 
 
-def plot_data_attributes(X, nom_alumne, show=True):
+def plot_data_attributes(x, nom_alumne, show=True):
+    """
+    plots data attributes
+    :rtype: object
+    :param x:
+    :param nom_alumne:
+    :param show:
+    """
     fig, axs = plt.subplots(2, 2)
 
     fig.suptitle(f"Data Attributes - {nom_alumne}", fontsize=12, y=1)
@@ -33,16 +49,16 @@ def plot_data_attributes(X, nom_alumne, show=True):
     fig.set_size_inches(6, 6)
 
     axs[0, 0].set_title("attr1 vs attr2")
-    axs[0, 0].scatter(X[:, 0], X[:, 1], c="white", marker="o", edgecolor="black", s=50)
+    axs[0, 0].scatter(x[:, 0], x[:, 1], c="white", marker="o", edgecolor="black", s=50)
 
     axs[0, 1].set_title("attr1 vs attr3")
-    axs[0, 1].scatter(X[:, 0], X[:, 2], c="white", marker="o", edgecolor="black", s=50)
+    axs[0, 1].scatter(x[:, 0], x[:, 2], c="white", marker="o", edgecolor="black", s=50)
 
     axs[1, 0].set_title("attr1 vs attr4")
-    axs[1, 0].scatter(X[:, 0], X[:, 3], c="white", marker="o", edgecolor="black", s=50)
+    axs[1, 0].scatter(x[:, 0], x[:, 3], c="white", marker="o", edgecolor="black", s=50)
 
     axs[1, 1].set_title("attr2 vs attr3")
-    axs[1, 1].scatter(X[:, 1], X[:, 2], c="white", marker="o", edgecolor="black", s=50)
+    axs[1, 1].scatter(x[:, 1], x[:, 2], c="white", marker="o", edgecolor="black", s=50)
 
     plt.savefig(f"img/scatters_{nom_alumne}.png")
 
@@ -51,13 +67,17 @@ def plot_data_attributes(X, nom_alumne, show=True):
 
     plt.close()  # Force close this instance
 
-    return None
-
 
 # =========================================================
 
 
 def model_kmeans(num_clusters):
+    """
+    returns a KMeans model based on cluster qty
+    :rtype: object
+    :param num_clusters: 
+    :return: 
+    """
     km = KMeans(
         n_clusters=num_clusters,
         init="random",
@@ -73,15 +93,28 @@ def model_kmeans(num_clusters):
 # =========================================================
 
 
-def predict_clusters(model, X):
-    y_km = model.fit_predict(X)
+def predict_clusters(model, x):
+    """
+    obtains label prediction from the model
+    :rtype: object
+    """
+    y_km = model.fit_predict(x)
     return model, y_km
 
 
 # =========================================================
 
 
-def plot_clusters(km, X, y_km, nom_alumne, show=True):
+def plot_clusters(km, x, y_km, nom_alumne, show=True):
+    """
+    plots cluster distribution
+    :rtype: object
+    :param km:
+    :param x:
+    :param y_km:
+    :param nom_alumne:
+    :param show:
+    """
     # plot the 3 clusters
     fig, axs = plt.subplots(1, 3)
 
@@ -91,8 +124,8 @@ def plot_clusters(km, X, y_km, nom_alumne, show=True):
 
     axs[0].set_title("attr1 vs attr2")
     axs[0].scatter(
-        X[y_km == 0, 0],
-        X[y_km == 0, 1],
+        x[y_km == 0, 0],
+        x[y_km == 0, 1],
         s=50,
         c="lightgreen",
         marker="s",
@@ -100,8 +133,8 @@ def plot_clusters(km, X, y_km, nom_alumne, show=True):
         label="cluster 1",
     )
     axs[0].scatter(
-        X[y_km == 1, 0],
-        X[y_km == 1, 1],
+        x[y_km == 1, 0],
+        x[y_km == 1, 1],
         s=50,
         c="orange",
         marker="o",
@@ -110,8 +143,8 @@ def plot_clusters(km, X, y_km, nom_alumne, show=True):
     )
 
     axs[0].scatter(
-        X[y_km == 2, 0],
-        X[y_km == 2, 1],
+        x[y_km == 2, 0],
+        x[y_km == 2, 1],
         s=50,
         c="lightblue",
         marker="v",
@@ -132,8 +165,8 @@ def plot_clusters(km, X, y_km, nom_alumne, show=True):
 
     axs[1].set_title("attr1 vs attr3")
     axs[1].scatter(
-        X[y_km == 0, 0],
-        X[y_km == 0, 2],
+        x[y_km == 0, 0],
+        x[y_km == 0, 2],
         s=50,
         c="lightgreen",
         marker="s",
@@ -141,8 +174,8 @@ def plot_clusters(km, X, y_km, nom_alumne, show=True):
         label="cluster 1",
     )
     axs[1].scatter(
-        X[y_km == 1, 0],
-        X[y_km == 1, 2],
+        x[y_km == 1, 0],
+        x[y_km == 1, 2],
         s=50,
         c="orange",
         marker="o",
@@ -151,8 +184,8 @@ def plot_clusters(km, X, y_km, nom_alumne, show=True):
     )
 
     axs[1].scatter(
-        X[y_km == 2, 0],
-        X[y_km == 2, 2],
+        x[y_km == 2, 0],
+        x[y_km == 2, 2],
         s=50,
         c="lightblue",
         marker="v",
@@ -173,8 +206,8 @@ def plot_clusters(km, X, y_km, nom_alumne, show=True):
 
     axs[2].set_title("attr1 vs attr4")
     axs[2].scatter(
-        X[y_km == 0, 0],
-        X[y_km == 0, 3],
+        x[y_km == 0, 0],
+        x[y_km == 0, 3],
         s=50,
         c="lightgreen",
         marker="s",
@@ -182,8 +215,8 @@ def plot_clusters(km, X, y_km, nom_alumne, show=True):
         label="cluster 1",
     )
     axs[2].scatter(
-        X[y_km == 1, 0],
-        X[y_km == 1, 3],
+        x[y_km == 1, 0],
+        x[y_km == 1, 3],
         s=50,
         c="orange",
         marker="o",
@@ -192,8 +225,8 @@ def plot_clusters(km, X, y_km, nom_alumne, show=True):
     )
 
     axs[2].scatter(
-        X[y_km == 2, 0],
-        X[y_km == 2, 3],
+        x[y_km == 2, 0],
+        x[y_km == 2, 3],
         s=50,
         c="lightblue",
         marker="v",
@@ -226,14 +259,24 @@ def plot_clusters(km, X, y_km, nom_alumne, show=True):
 
     plt.close()  # Force close this instance
 
-    return None
+
+# =========================================================
 
 
-def plot_clusters_PCA(km, X, y_km, nom_alumne, show=True):
+def plot_clusters_pca(km, x, y_km, nom_alumne, show=True):
+    """
+    plots cluster distribution on pca 2 attr function
+    :param km:
+    :param x:
+    :param y_km:
+    :param nom_alumne:
+    :param show:
+    :rtype: object
+    """
     plt.suptitle("attr1 vs attr2")
     plt.scatter(
-        X[y_km == 0, 0],
-        X[y_km == 0, 1],
+        x[y_km == 0, 0],
+        x[y_km == 0, 1],
         s=50,
         c="lightgreen",
         marker="s",
@@ -241,8 +284,8 @@ def plot_clusters_PCA(km, X, y_km, nom_alumne, show=True):
         label="cluster 1",
     )
     plt.scatter(
-        X[y_km == 1, 0],
-        X[y_km == 1, 1],
+        x[y_km == 1, 0],
+        x[y_km == 1, 1],
         s=50,
         c="orange",
         marker="o",
@@ -251,8 +294,8 @@ def plot_clusters_PCA(km, X, y_km, nom_alumne, show=True):
     )
 
     plt.scatter(
-        X[y_km == 2, 0],
-        X[y_km == 2, 1],
+        x[y_km == 2, 0],
+        x[y_km == 2, 1],
         s=50,
         c="lightblue",
         marker="v",
@@ -283,23 +326,29 @@ def plot_clusters_PCA(km, X, y_km, nom_alumne, show=True):
 
     plt.close()  # Force close this instance
 
-    return None
-
 
 # =========================================================
 
 
-def plot_clusters3D(km, X, y_km, nom_alumne, show=True):
-
+def plot_clusters_3d(km, x, y_km, nom_alumne, show=True):
+    """
+    plots 3D cluster distribution
+    :rtype: object
+    :param km:
+    :param x:
+    :param y_km:
+    :param nom_alumne:
+    :param show:
+    """
     fig = plt.figure()
     fig.set_size_inches(6, 6)
     fig.suptitle(f"Clusters - {nom_alumne}", fontsize=12, y=1)
     ax = fig.add_subplot(projection="3d")
 
     ax.scatter(
-        X[y_km == 0, 0],
-        X[y_km == 0, 1],
-        X[y_km == 0, 2],
+        x[y_km == 0, 0],
+        x[y_km == 0, 1],
+        x[y_km == 0, 2],
         s=50,
         c="lightgreen",
         marker="s",
@@ -308,9 +357,9 @@ def plot_clusters3D(km, X, y_km, nom_alumne, show=True):
     )
 
     ax.scatter(
-        X[y_km == 1, 0],
-        X[y_km == 1, 1],
-        X[y_km == 1, 2],
+        x[y_km == 1, 0],
+        x[y_km == 1, 1],
+        x[y_km == 1, 2],
         s=50,
         c="orange",
         marker="s",
@@ -319,9 +368,9 @@ def plot_clusters3D(km, X, y_km, nom_alumne, show=True):
     )
 
     ax.scatter(
-        X[y_km == 2, 0],
-        X[y_km == 2, 1],
-        X[y_km == 2, 2],
+        x[y_km == 2, 0],
+        x[y_km == 2, 1],
+        x[y_km == 2, 2],
         s=50,
         c="lightblue",
         marker="s",
@@ -359,13 +408,19 @@ def plot_clusters3D(km, X, y_km, nom_alumne, show=True):
 
     plt.close()  # Force close this instance
 
-    return None
-
 
 # =========================================================
 
 
-def plot_clusters3D_HTML(X, y_km, nom_alumne, show=True):
+def plot_clusters_3d_html(x, y_km, nom_alumne, show=True):
+    """
+    plots cluster distribution on al html exportable file
+    :rtype: object
+    :param x:
+    :param y_km:
+    :param nom_alumne:
+    :param show:
+    """
     # Configure Plotly to be rendered inline in the notebook.
     plotly.offline.init_notebook_mode()
 
@@ -374,9 +429,9 @@ def plot_clusters3D_HTML(X, y_km, nom_alumne, show=True):
     # https://plotly.com/python/3d-scatter-plots/#style-marker-size-and-color
     # Configure the trace.
     cluster1 = go.Scatter3d(
-        x=X[y_km == 0, 0],
-        y=X[y_km == 0, 1],
-        z=X[y_km == 0, 2],
+        x=x[y_km == 0, 0],
+        y=x[y_km == 0, 1],
+        z=x[y_km == 0, 2],
         mode="markers",
         marker={
             "size": 5,
@@ -389,9 +444,9 @@ def plot_clusters3D_HTML(X, y_km, nom_alumne, show=True):
     )
 
     cluster2 = go.Scatter3d(
-        x=X[y_km == 1, 0],
-        y=X[y_km == 1, 1],
-        z=X[y_km == 1, 2],
+        x=x[y_km == 1, 0],
+        y=x[y_km == 1, 1],
+        z=x[y_km == 1, 2],
         mode="markers",
         marker={
             "size": 5,
@@ -404,9 +459,9 @@ def plot_clusters3D_HTML(X, y_km, nom_alumne, show=True):
     )
 
     cluster3 = go.Scatter3d(
-        x=X[y_km == 2, 0],
-        y=X[y_km == 2, 1],
-        z=X[y_km == 2, 2],
+        x=x[y_km == 2, 0],
+        y=x[y_km == 2, 1],
+        z=x[y_km == 2, 2],
         mode="markers",
         marker={
             "size": 5,
@@ -426,7 +481,9 @@ def plot_clusters3D_HTML(X, y_km, nom_alumne, show=True):
     # **Made tests and removed margins to correctly show legend and title
     layout = go.Layout(
         showlegend=True,
-        title_text=f"Clusters - {nom_alumne}",
+        title=go.layout.Title(
+            text=f"Clusters - {nom_alumne}"
+        )
     )
 
     data = [cluster1, cluster2, cluster3]
@@ -444,21 +501,35 @@ def plot_clusters3D_HTML(X, y_km, nom_alumne, show=True):
 
     plotly.offline.plot(plot_figure, filename=filename, auto_open=show)
 
-    return None
+
+# =========================================================
+
+
+def transform_pca(x, num_components):
+    """
+    transforms a set into a PCA specified attr qty
+    :rtype: object
+    :param x:
+    :param num_components:
+    :return:
+    """
+    x_pca = PCA(n_components=num_components).fit_transform(x)
+    return x_pca
 
 
 # =========================================================
 
 
-def transform_PCA(X, num_components):
-    X_PCA = PCA(n_components=num_components).fit_transform(X)
-    return X_PCA
-
-
-# =========================================================
-
-
-def plot_elbow(X_PCA, nom_alumne, show=True, min_n_clusters=1, max_n_clusters=9):
+def plot_elbow(x_pca, nom_alumne, show=True, min_n_clusters=1, max_n_clusters=9):
+    """
+    plots elbow cluster metrics
+    :rtype: object
+    :param x_pca:
+    :param nom_alumne:
+    :param show:
+    :param min_n_clusters:
+    :param max_n_clusters:
+    """
     # https://www.geeksforgeeks.org/elbow-method-for-optimal-value-of-k-in-kmeans/
 
     clusters = range(min_n_clusters, max_n_clusters)
@@ -471,7 +542,7 @@ def plot_elbow(X_PCA, nom_alumne, show=True, min_n_clusters=1, max_n_clusters=9)
 
     for k in clusters:
         km = model_kmeans(k)
-        km.fit(X_PCA)
+        km.fit(x_pca)
         inertias.append(km.inertia_)
 
     ax.plot(clusters, inertias)
@@ -491,11 +562,16 @@ def plot_elbow(X_PCA, nom_alumne, show=True, min_n_clusters=1, max_n_clusters=9)
 
     plt.close()  # Force close this instance
 
-    return None
-
 
 # =========================================================
 def calcular_scores(y_test, y_pred, name):
+    """
+    prints model predicted label scores
+    :rtype: object
+    :param y_test:
+    :param y_pred:
+    :param name:
+    """
     print(f"\n{name} model:")
     print(f"homogeneïtat -> {metrics.homogeneity_score(y_test, y_pred):.2}")
     print(f"completesa -> {metrics.completeness_score(y_test, y_pred):.2}")
