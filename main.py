@@ -1,6 +1,7 @@
 """
 main script
 """
+
 from functions import (
     calcular_scores,
     plot_clusters_pca,
@@ -12,7 +13,7 @@ from functions import (
     plot_clusters_3d,
     plot_clusters,
     plot_data_attributes,
-    create_dataset
+    create_dataset,
 )
 
 NOM_ALUMNE = "OliveraJoel"
@@ -56,8 +57,8 @@ for i, item in enumerate(y_km):
     else:
         clusters[item] = [feature]
 
-for cluster in clusters.items():
-    print(f"els 5 primeres dades del cluster {cluster}: {clusters[cluster][:5]}")
+for key, value in clusters.items():
+    print(f"els 5 primeres dades del cluster {key}: {clusters[key][:5]}")
 
 # PCA ============================
 # transformem les dades a dos atributs

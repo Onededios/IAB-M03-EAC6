@@ -1,0 +1,92 @@
+Help on module functions:
+
+NAME
+    functions - Helper functions to generate data, models, train models and plot data
+
+FUNCTIONS
+    calcular_scores(y_test, y_pred, name)
+        prints model predicted label scores
+        :rtype: object
+        :param y_test:
+        :param y_pred:
+        :param name:
+
+    create_dataset(number_features)
+        creates a dataset based on features qty
+        :param number_features:
+        :return: tuple (x, y) -> (features, cluster assignments)
+
+    model_kmeans(num_clusters)
+        returns a KMeans model based on cluster qty
+        :rtype: object
+        :param num_clusters:
+        :return:
+
+    plot_clusters(km, x, y_km, nom_alumne, show=True)
+        plots cluster distribution
+        :rtype: object
+        :param km:
+        :param x:
+        :param y_km:
+        :param nom_alumne:
+        :param show:
+
+    plot_clusters_3d(km, x, y_km, nom_alumne, show=True)
+        plots 3D cluster distribution
+        :rtype: object
+        :param km:
+        :param x:
+        :param y_km:
+        :param nom_alumne:
+        :param show:
+
+    plot_clusters_3d_html(x, y_km, nom_alumne, show=True)
+        plots cluster distribution on al html exportable file
+        :rtype: object
+        :param x:
+        :param y_km:
+        :param nom_alumne:
+        :param show:
+
+    plot_clusters_pca(km, x, y_km, nom_alumne, show=True)
+        plots cluster distribution on pca 2 attr function
+        :param km:
+        :param x:
+        :param y_km:
+        :param nom_alumne:
+        :param show:
+        :rtype: object
+
+    plot_data_attributes(x, nom_alumne, show=True)
+        plots data attributes
+        :rtype: object
+        :param x:
+        :param nom_alumne:
+        :param show:
+
+    plot_elbow(x_pca, nom_alumne, show=True, min_n_clusters=1, max_n_clusters=9)
+        plots elbow cluster metrics
+        :rtype: object
+        :param x_pca:
+        :param nom_alumne:
+        :param show:
+        :param min_n_clusters:
+        :param max_n_clusters:
+
+    predict_clusters(model, x)
+        obtains label prediction from the model
+        :rtype: object
+        :param model:
+        :param x:
+
+    transform_pca(x, num_components)
+        transforms a set into a PCA specified attr qty
+        :rtype: object
+        :param x:
+        :param num_components:
+        :return:
+
+FILE
+    c:\repos\iab-m03-eac6-2425s2-enunciat\enu\functions.py
+
+

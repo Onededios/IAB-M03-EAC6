@@ -75,8 +75,8 @@ def model_kmeans(num_clusters):
     """
     returns a KMeans model based on cluster qty
     :rtype: object
-    :param num_clusters: 
-    :return: 
+    :param num_clusters:
+    :return:
     """
     km = KMeans(
         n_clusters=num_clusters,
@@ -97,6 +97,8 @@ def predict_clusters(model, x):
     """
     obtains label prediction from the model
     :rtype: object
+    :param model:
+    :param x:
     """
     y_km = model.fit_predict(x)
     return model, y_km
@@ -480,10 +482,7 @@ def plot_clusters_3d_html(x, y_km, nom_alumne, show=True):
     # Configure the layout.
     # **Made tests and removed margins to correctly show legend and title
     layout = go.Layout(
-        showlegend=True,
-        title=go.layout.Title(
-            text=f"Clusters - {nom_alumne}"
-        )
+        showlegend=True, title=go.layout.Title(text=f"Clusters - {nom_alumne}")
     )
 
     data = [cluster1, cluster2, cluster3]

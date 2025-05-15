@@ -1,0 +1,27 @@
+URL: https://github.com/Onededios/IAB-M03-EAC6
+
+Flujo de trabajo para exportarlo a github:
+1. Crear el repositorio en local (dentro de una carpeta)
+2. Añadir los archivos a subir al repositorio (crear un .gitignore si es necesario)
+3. Añadir los cambios y hacer un commit
+4. Añadir el repositorio remoto
+5. Pushear los cambios al repositorio (como trabajo directamente en master, sin branches)
+6. En el repositorio, comprobar que el push se ha realizado correctamente
+
+Comandos para subir el proyecto:
+    - Comandos:
+        1. git init
+        2. git add .
+        3. git commit -m "test"
+        4. git remote add origin url
+        5. git push
+    - Explicación:
+        1. Inicializar un repositorio con Git en el repositorio actual
+        2. Añadir los archivos modificados a cambios
+        3. Guardar una copia local de las modificaciones añadidas
+        4. Asociar el repositorio local con el remoto
+        5. Subir la copia local al repositorio remoto
+
+Captura de pantalla: ./captures/Captura de pantalla 2025-05-15 232546.png
+
+EL REPOSITORIO ES MIO, Onededios es mi apodo: ./captures/Captura de pantalla 2025-05-15 232758.png
